@@ -1,0 +1,1 @@
+Disponer dos botones. Cambiar el color del botón luego que a sido presionado (pintarlos de color rojo)

@@ -1,0 +1,1 @@
+Confeccionar una página que contenga un control text para el ingreso de una palabra. Disponer un hipervínculo que al ser presionado abra otra ventana con el buscador google mostrando todas las páginas que contiene dicha palabra (https://www.google.com/search?q=buscar) debemos remplazar la palabra "buscar" por la palabra que ingresamos en el control text.
