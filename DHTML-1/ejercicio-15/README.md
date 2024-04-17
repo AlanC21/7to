@@ -1,0 +1,1 @@
+Disponer un div con tres párrafos. Ingresar en un control de tipo text un valor entero entre 0 y 2. Luego borrar el párrafo que coincida con el valor ingresado (el valor ingresado representa la posición del nodo elemento a borrar).

@@ -1,0 +1,1 @@
+Confeccionar una página que fije el color rojo a todos los párrafos.

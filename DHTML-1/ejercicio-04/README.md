@@ -1,0 +1,3 @@
+Desarrollar una página que contenga dos div con dos párrafos cada uno. El primer div escribir todos su contenido en la misma línea, sin presionar la tecla "enter" o "entrada". El segundo div escribir los párrafos en líneas distintas.
+Mostrar cuando se presione un botón la cantidad de nodos hijos de cada div.
+Luego agregar otro botón que muestre la cantidad de nodos de tipo elemento empleando la propiedad 'children'
