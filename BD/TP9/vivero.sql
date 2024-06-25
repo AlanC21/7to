@@ -1,0 +1,347 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 25-06-2024 a las 05:23:26
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `vivero`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cliente_vip`
+--
+
+CREATE TABLE `cliente_vip` (
+  `dni` varchar(15) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `direccion` varchar(200) DEFAULT NULL,
+  `telefono` varchar(15) DEFAULT NULL,
+  `fecha_incorporacion` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_pedido`
+--
+
+CREATE TABLE `detalle_pedido` (
+  `id_detalle` int(11) NOT NULL,
+  `numero_pedido` int(11) DEFAULT NULL,
+  `codigo_producto` varchar(20) DEFAULT NULL,
+  `unidades` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empleado`
+--
+
+CREATE TABLE `empleado` (
+  `dni` varchar(15) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `telefono` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empleado_vivero`
+--
+
+CREATE TABLE `empleado_vivero` (
+  `dni` varchar(15) NOT NULL,
+  `codigo_tienda` varchar(10) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empleado_zona`
+--
+
+CREATE TABLE `empleado_zona` (
+  `id_asignacion` int(11) NOT NULL,
+  `dni` varchar(15) DEFAULT NULL,
+  `id_zona` int(11) DEFAULT NULL,
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pedido`
+--
+
+CREATE TABLE `pedido` (
+  `numero_pedido` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `descuento` decimal(5,2) DEFAULT NULL,
+  `precio_portes` decimal(10,2) DEFAULT NULL,
+  `dni_cliente` varchar(15) DEFAULT NULL,
+  `dni_empleado` varchar(15) DEFAULT NULL,
+  `codigo_tienda` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `producto`
+--
+
+CREATE TABLE `producto` (
+  `codigo_producto` varchar(20) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `precio` decimal(10,2) DEFAULT NULL,
+  `id_tipo` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `stock`
+--
+
+CREATE TABLE `stock` (
+  `id_stock` int(11) NOT NULL,
+  `codigo_producto` varchar(20) DEFAULT NULL,
+  `codigo_tienda` varchar(10) DEFAULT NULL,
+  `id_zona` int(11) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_producto`
+--
+
+CREATE TABLE `tipo_producto` (
+  `id_tipo` int(11) NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vivero`
+--
+
+CREATE TABLE `vivero` (
+  `codigo_tienda` varchar(10) NOT NULL,
+  `telefono` varchar(15) DEFAULT NULL,
+  `direccion` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `zona`
+--
+
+CREATE TABLE `zona` (
+  `id_zona` int(11) NOT NULL,
+  `codigo_tienda` varchar(10) DEFAULT NULL,
+  `nombre` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `cliente_vip`
+--
+ALTER TABLE `cliente_vip`
+  ADD PRIMARY KEY (`dni`);
+
+--
+-- Indices de la tabla `detalle_pedido`
+--
+ALTER TABLE `detalle_pedido`
+  ADD PRIMARY KEY (`id_detalle`),
+  ADD KEY `numero_pedido` (`numero_pedido`),
+  ADD KEY `codigo_producto` (`codigo_producto`);
+
+--
+-- Indices de la tabla `empleado`
+--
+ALTER TABLE `empleado`
+  ADD PRIMARY KEY (`dni`);
+
+--
+-- Indices de la tabla `empleado_vivero`
+--
+ALTER TABLE `empleado_vivero`
+  ADD PRIMARY KEY (`dni`,`codigo_tienda`,`fecha_inicio`),
+  ADD KEY `codigo_tienda` (`codigo_tienda`);
+
+--
+-- Indices de la tabla `empleado_zona`
+--
+ALTER TABLE `empleado_zona`
+  ADD PRIMARY KEY (`id_asignacion`),
+  ADD KEY `dni` (`dni`),
+  ADD KEY `id_zona` (`id_zona`);
+
+--
+-- Indices de la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  ADD PRIMARY KEY (`numero_pedido`),
+  ADD KEY `dni_cliente` (`dni_cliente`),
+  ADD KEY `dni_empleado` (`dni_empleado`),
+  ADD KEY `codigo_tienda` (`codigo_tienda`);
+
+--
+-- Indices de la tabla `producto`
+--
+ALTER TABLE `producto`
+  ADD PRIMARY KEY (`codigo_producto`),
+  ADD KEY `id_tipo` (`id_tipo`);
+
+--
+-- Indices de la tabla `stock`
+--
+ALTER TABLE `stock`
+  ADD PRIMARY KEY (`id_stock`),
+  ADD KEY `codigo_producto` (`codigo_producto`),
+  ADD KEY `codigo_tienda` (`codigo_tienda`),
+  ADD KEY `id_zona` (`id_zona`);
+
+--
+-- Indices de la tabla `tipo_producto`
+--
+ALTER TABLE `tipo_producto`
+  ADD PRIMARY KEY (`id_tipo`);
+
+--
+-- Indices de la tabla `vivero`
+--
+ALTER TABLE `vivero`
+  ADD PRIMARY KEY (`codigo_tienda`);
+
+--
+-- Indices de la tabla `zona`
+--
+ALTER TABLE `zona`
+  ADD PRIMARY KEY (`id_zona`),
+  ADD KEY `codigo_tienda` (`codigo_tienda`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `detalle_pedido`
+--
+ALTER TABLE `detalle_pedido`
+  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `empleado_zona`
+--
+ALTER TABLE `empleado_zona`
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  MODIFY `numero_pedido` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `stock`
+--
+ALTER TABLE `stock`
+  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_producto`
+--
+ALTER TABLE `tipo_producto`
+  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `zona`
+--
+ALTER TABLE `zona`
+  MODIFY `id_zona` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `detalle_pedido`
+--
+ALTER TABLE `detalle_pedido`
+  ADD CONSTRAINT `detalle_pedido_ibfk_1` FOREIGN KEY (`numero_pedido`) REFERENCES `pedido` (`numero_pedido`),
+  ADD CONSTRAINT `detalle_pedido_ibfk_2` FOREIGN KEY (`codigo_producto`) REFERENCES `producto` (`codigo_producto`);
+
+--
+-- Filtros para la tabla `empleado_vivero`
+--
+ALTER TABLE `empleado_vivero`
+  ADD CONSTRAINT `empleado_vivero_ibfk_1` FOREIGN KEY (`dni`) REFERENCES `empleado` (`dni`),
+  ADD CONSTRAINT `empleado_vivero_ibfk_2` FOREIGN KEY (`codigo_tienda`) REFERENCES `vivero` (`codigo_tienda`);
+
+--
+-- Filtros para la tabla `empleado_zona`
+--
+ALTER TABLE `empleado_zona`
+  ADD CONSTRAINT `empleado_zona_ibfk_1` FOREIGN KEY (`dni`) REFERENCES `empleado` (`dni`),
+  ADD CONSTRAINT `empleado_zona_ibfk_2` FOREIGN KEY (`id_zona`) REFERENCES `zona` (`id_zona`);
+
+--
+-- Filtros para la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`dni_cliente`) REFERENCES `cliente_vip` (`dni`),
+  ADD CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`dni_empleado`) REFERENCES `empleado` (`dni`),
+  ADD CONSTRAINT `pedido_ibfk_3` FOREIGN KEY (`codigo_tienda`) REFERENCES `vivero` (`codigo_tienda`);
+
+--
+-- Filtros para la tabla `producto`
+--
+ALTER TABLE `producto`
+  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_producto` (`id_tipo`);
+
+--
+-- Filtros para la tabla `stock`
+--
+ALTER TABLE `stock`
+  ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`codigo_producto`) REFERENCES `producto` (`codigo_producto`),
+  ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`codigo_tienda`) REFERENCES `vivero` (`codigo_tienda`),
+  ADD CONSTRAINT `stock_ibfk_3` FOREIGN KEY (`id_zona`) REFERENCES `zona` (`id_zona`);
+
+--
+-- Filtros para la tabla `zona`
+--
+ALTER TABLE `zona`
+  ADD CONSTRAINT `zona_ibfk_1` FOREIGN KEY (`codigo_tienda`) REFERENCES `vivero` (`codigo_tienda`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
